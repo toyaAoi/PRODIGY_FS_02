@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import config from "../config/config.js";
+import logger from "../utils/logger.js";
 
 const dbName =
   config.NODE_ENV === "test"
@@ -8,7 +9,7 @@ const dbName =
 
 const connectDB = async () => {
   try {
-    console.log("Connecting to MongoDB...");
+    logger.info("Connecting to MongoDB...");
     mongoose.set("strictQuery", false);
     if (!config.MONGO_URI) {
       throw new Error("MONGO_URI is not set");
@@ -16,9 +17,9 @@ const connectDB = async () => {
     await mongoose.connect(config.MONGO_URI, {
       dbName,
     });
-    console.log("MongoDB connected successfully");
+    logger.info("MongoDB connected successfully");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error.stack);
+    logger.error("Error connecting to MongoDB:", error.stack);
     process.exit(1);
   }
 };
