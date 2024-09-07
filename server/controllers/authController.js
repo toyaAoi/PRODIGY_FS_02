@@ -21,7 +21,7 @@ const login = async (req, res) => {
 
   const user = await Admin.findOne({ username });
   if (!user || !(await bcrypt.compare(password, user.hashedPassword))) {
-    return res.status(401).json({ error: "Invalid credentials" });
+    return res.status(401).json({ error: "Wrong username or password" });
   }
   const token = jwt.sign({ id: user._id, username }, config.JWT_SECRET, {
     expiresIn: "1h",
